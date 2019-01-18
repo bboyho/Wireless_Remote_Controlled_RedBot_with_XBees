@@ -4,11 +4,11 @@ Wireless Remote Controlled RedBot w/ XBee
 <table class="table table-hover table-striped table-bordered">
   <tr align="center">
    <td><a href="https://learn.sparkfun.com/tutorials/wireless-joystick-hookup-guide/"><img src="https://cdn.sparkfun.com/assets/learn_tutorials/5/7/0/Joystick_Tutorial-01.jpg" alt="Wireless Joystick with SAMD21"></a></td>
-   <td><a href="https://learn.sparkfun.com/tutorials/experiment-guide-for-redbot-with-shadow-chassis"><img src="https://cdn.sparkfun.com//assets/parts/9/3/4/3/SIK_Shadow_Chasis.jpg" alt=""></a></td>
+   <td><a href="https://learn.sparkfun.com/tutorials/experiment-guide-for-redbot-with-shadow-chassis"><img src="https://cdn.sparkfun.com/assets/learn_tutorials/3/5/6/Redbot_Kit-93.jpg" alt=""></a></td>
   </tr>
   <tr align="center">
     <td><i>Wireless Remote</i></td>
-    <td><i>Assemble RedBot</i></td>
+    <td><i>Assembled RedBot</i></td>
   </tr>
 </table>
 
