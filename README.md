@@ -1,5 +1,16 @@
-Wireless Remote Controlled RedBot
+Wireless Remote Controlled RedBot w/ XBee
 ========================================
+
+<table class="table table-hover table-striped table-bordered">
+  <tr align="center">
+   <td><a href="https://learn.sparkfun.com/tutorials/wireless-joystick-hookup-guide/"><img src="https://cdn.sparkfun.com/assets/learn_tutorials/5/7/0/Joystick_Tutorial-01.jpg" alt="Wireless Joystick with SAMD21"></a></td>
+   <td><a href="https://learn.sparkfun.com/tutorials/experiment-guide-for-redbot-with-shadow-chassis"><img src="https://cdn.sparkfun.com//assets/parts/9/3/4/3/SIK_Shadow_Chasis.jpg" alt=""></a></td>
+  </tr>
+  <tr align="center">
+    <td><i>Wireless Remote</i></td>
+    <td><i>Assemble RedBot</i></td>
+  </tr>
+</table>
 
 Repository Contents
 -------------------
@@ -10,6 +21,7 @@ Repository Contents
 Documentation
 --------------
 
+* **[Exploring XBees and XCTU: Configuring Networks](https://learn.sparkfun.com/tutorials/exploring-xbees-and-xctu/#configuring-networks)** - Getting Started with XBees
 * **[Installing an Arduino Library Guide](https://learn.sparkfun.com/tutorials/installing-an-arduino-library)** - Basic information on how to install an Arduino library.
 * **[SAMD21 Mini/Dev Breakout Hookup Guide: Setting Up Arduino](https://learn.sparkfun.com/tutorials/samd21-minidev-breakout-hookup-guide/setting-up-arduino)** - Look here for SAMD21 board add-ons
 * **[Wireless Joystick Hookup Guide](https://learn.sparkfun.com/tutorials/wireless-joystick-hookup-guide/)** - Basic hookup guide for the Wireless Joystick.  
@@ -18,8 +30,7 @@ Documentation
 
 XBee Series 1:  Point to Point Configuration
 -------------------
-* [Exploring XBees and XCTU: Configuring Networks](https://learn.sparkfun.com/tutorials/exploring-xbees-and-xctu/#configuring-networks)
-* [Digi Tutorial: XBee 802.15.4 (i.e. Wireless Serial)](https://www.digi.com/blog/basic-xbee-802-15-4-chat/)
+[Digi Tutorial: XBee 802.15.4 (i.e. Wireless Serial)](https://www.digi.com/blog/basic-xbee-802-15-4-chat/)
   
   * Master XBee
   * CH = C
