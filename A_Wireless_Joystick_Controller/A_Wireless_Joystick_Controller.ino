@@ -50,7 +50,7 @@ void setup() {
   SerialUSB.begin(9600);// Initialize Serial Monitor for DEBUGGING
 
   //Uncomment this if you want to wait until the serial monitor is open.
-  //while (!SerialUSB); //UnnWait for Serial Monitor to Open
+  //while (!SerialUSB); //Wait for Serial Monitor to Open
 
   SerialUSB.println("Wireless Joystick Controller Initialized");
 
