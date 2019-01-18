@@ -32,7 +32,7 @@ XBee Series 1:  Point to Point Configuration
 -------------------
 [Digi Tutorial: XBee 802.15.4 (i.e. Wireless Serial)](https://www.digi.com/blog/basic-xbee-802-15-4-chat/)
   
-  * Master XBee
+* Master XBee
   * CH = C
   * ID = 3333
   * DH = 0
