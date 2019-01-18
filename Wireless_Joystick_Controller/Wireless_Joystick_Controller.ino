@@ -17,9 +17,9 @@
    the joystick on the left. A character will be transmitted when moving the joystick:
 
      up = forward
-     right = forward turn
+     right = forward turn right
      down = reverse
-     left = forward turn
+     left = forward turn left
 
    The RedBot will need to be programmed to read those values.
 
