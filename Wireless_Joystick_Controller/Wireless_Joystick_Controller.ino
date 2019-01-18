@@ -10,7 +10,7 @@
    Please attribute and keep this license.
 
    This is example code for the Wireless Joystick to control a robot
-   using XBee Series 1 on the same channel. Plug the first Xbee into
+   using XBee Series 1 on the same channel. Plug the first XBee into
    the Wireless Joystick board, and connect the second to the SparkFun RedBot Mainboard
 
    Pressing down on D2 (if you soldered the joystick on the right or a button) will check
