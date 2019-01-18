@@ -32,14 +32,14 @@ XBee Series 1:  Point to Point Configuration
 -------------------
 [Digi Tutorial: XBee 802.15.4 (i.e. Wireless Serial)](https://www.digi.com/blog/basic-xbee-802-15-4-chat/)
   
-* Master XBee
+* Master XBee (Transmitting, Controller)
   * CH = C
   * ID = 3333
   * DH = 0
   * DL = 2
   * MY = 1
 
-* Slave XBee
+* Slave XBee (Receiving, RedBot)
   * CH = C
   * ID = 3333
   * DH = 0
