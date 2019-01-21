@@ -1,5 +1,5 @@
 /***********************************************************************
-  Wireless Controlled RedBot
+  HW-Serial Wireless Controlled RedBot
   Written by: Ho Yun Bobby Chan
   Date: 1/18/19
   SparkFun Electronics
@@ -7,7 +7,8 @@
   The first step to controlling the RedBot remotely is to first drive it
   from the Serial Monitor in a tethered setup. After uploading this sketch,
   keep the RedBot tethered to your computer with the USB cable. Flip the
-  switches to the respective sides: MOTOR => RUN and POWER => ON.
+  switches to the respective sides: MOTOR => RUN and POWER => ON. You
+  will also need to have UART flipped to the XBee_HW_Serial side.
 
   Open up the Serial Monitor to send commands to the RedBot to move. This
   is useful for determining if the motors are wired correctly.
@@ -19,8 +20,8 @@
 
   If your motors are not moving forward when you send the forward command,
   simply flip the wiring. You can adjust the code but that would require
-  adjusting more than one line of code. This does not account for motor 
-  intensity like the example that is used with the Wirless Joystick Example
+  adjusting more than one line of code. This does not account for motor
+  intensity like the example that is used with the Wireless Joystick Example
   and RedBot Experiment 9.
 
   If you have not already, follow the RedBot Assembly Guide
@@ -65,16 +66,17 @@ void loop(void)
   // if there is data coming in on the Serial Monitor, do something with it.
   if (Serial.available())  {
     data = Serial.read();//store received value into variable
+    Serial.println("Character Received, ");
+    Serial.print(data); //send it out to serial monitor
+    Serial.println();
 
     if (data == 'A') {
-      Serial.println("Character Received, ");
       Serial.println("Drive Forward");
       digitalWrite(status_LED, HIGH); //turn ON Status LED
 
       motors.drive(255); //forward
     }
     else if (data == 'B') {
-      Serial.println("Character Received, ");
       Serial.println("Turn Right");
       digitalWrite(status_LED, HIGH); //turn ON Status LED
 
@@ -82,14 +84,12 @@ void loop(void)
       motors.rightMotor(100); // Turn on right motor power (motorPower = )
     }
     else if (data == 'C') {
-      Serial.println("Character Received, ");
       Serial.println("Reverse");
       digitalWrite(status_LED, HIGH); //turn ON Status LED
 
       motors.drive(-255); //reverse
     }
     else if (data == 'D') {
-      Serial.println("Character Received, ");
       Serial.println("Turn Left");
       digitalWrite(status_LED, HIGH); //turn ON Status LED
 
