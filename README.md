@@ -12,13 +12,14 @@ Wireless Remote Controlled RedBot w/ XBee
   </tr>
 </table>
 
-Example code using te wireless remote controller (SAMD21) to control the SparkFun RedBot (ATmega328P) via XBee. A character is pipelined between two serial UARTs using a pair of XBee Series 1 Transcievers.
+Example code using the wireless remote controller (SAMD21) to control the SparkFun RedBot (ATmega328P) via XBee. A character is pipelined between two serial UARTs using a pair of XBee Series 1 Transcievers. Make sure to use software serial example code for the RedBot to avoide bricking your XBee. 
 
 Repository Contents
 -------------------
 
 * **/A_Wireless_Joystick_Controller** - Example code for Controller (transmitting)
-* **/B_Wireless_Controlled_RedBot** - Example code for RedBot (receiving)
+* **/B1_SW-Serial_Wireless_Controlled_RedBot** - Example code for RedBot (receiving) using the custom software serial library in the RedBot Library
+* **/B2_HW-Serial_Wireless_Controlled_RedBot** - Example code for RedBot (receiving) using the hardware serial in the RedBot Library
 
 Documentation
 --------------
