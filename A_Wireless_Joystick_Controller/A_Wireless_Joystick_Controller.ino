@@ -42,6 +42,8 @@ int buttonACCELERATE_State; //value to store the state of the button press
 int16_t forward_reverse_Stick_value;
 int16_t turnStick_value;
 
+char c_data;//send values through the serial monitor for debugging
+
 void setup() {
 
   //pinMode(L_TRIG, INPUT_PULLUP); // Enable pullup resistor for left trigger, not used
@@ -74,6 +76,19 @@ void loop() {
   forward_reverse_Stick_value = analogRead(FORWARD_REVERSE_JOYSTICK);
   turnStick_value = analogRead(TURN_JOYSTICK);
 
+  //send commands via serial monitor for testing here
+  if (SerialUSB.available()) {
+    c_data = SerialUSB.read();//take character from serial monitor and store in variable
+
+    Serial1.print(c_data);//send to XBee
+
+    //echo back what was sent to serial monitor
+    SerialUSB.println("Sending character here ");
+    SerialUSB.println(c_data);
+  }
+
+
+
   if (buttonACCELERATE_State == LOW) {
     SerialUSB.println("Accelerate Button has been pressed!");
 
@@ -100,7 +115,7 @@ void loop() {
     //Debug left analog joystick here
     //Boundaries vary depending on the joystick's read value
     //You may need to adjust the values in the condition statements to calibrate
-    //Additional condition statements will need to be written for pivoting 
+    //Additional condition statements will need to be written for pivoting
     //and turning in reverse
     SerialUSB.print("forward_reverse_Stick_value  = "); //~1023 up, ~7-9 down
     SerialUSB.println(forward_reverse_Stick_value);
