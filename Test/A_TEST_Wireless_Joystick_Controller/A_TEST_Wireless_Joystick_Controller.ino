@@ -45,7 +45,7 @@ int16_t turnStick_value;
 char c_data;//send values through the serial monitor for debugging
 
 #define ledPin 13     //LED indicator to tell when code has finished initializing
-#define xbee_reset 12 //needed for certain XBee Series 3 modules
+#define xbee_reset A5 //needed for certain XBee Series 3 modules
 
 void setup() {
 
@@ -66,10 +66,18 @@ void setup() {
   pinMode(ACCELERATE_BUTTON, INPUT_PULLUP); // Enable pullup resistor for accelerate button D2
 
   //HARDWARE RESET
-  /*power cycle XBee Series 3 by grounding RESET Pin to avoid dicontinuities in ramp up and brown out detection
+  /*
+    - XBee Series 3 Hardware Reference Manual
+    - Pg 31 Power Supply Design recommends decoupling capacitor between Vcc and GND.
+      Tested with 10uF capacitor and without. This was not necessary.
+    - Pg 60 Brown Out Detection. This is REQUIRED. Add a jumper between the XBee's Reset and A5
+    https://www.digi.com/resources/documentation/digidocs/pdfs/90001543.pdf
+
+    - Power cycle XBee Series 3 by grounding RESET Pin to avoid dicontinuities in ramp up and brown out detection
     https://www.silabs.com/community/mcu/32-bit/knowledge-base.entry.html/2017/06/14/rmu_e203_avdd_ramp-j176
-    Minimum Time to Force Reset:
-    EFM32 devices = 50ns; EFM32PG/JG: Pearl and Jade Gecko =100ns
+    
+    - Minimum Time to Force Reset:
+    - EFM32 devices = 50ns; EFM32PG/JG: Pearl and Jade Gecko =100ns
     https://www.silabs.com/community/mcu/32-bit/knowledge-base.entry.html/2016/07/22/minimum_reset_holdt-PglD
   */
   pinMode(xbee_reset, OUTPUT);
