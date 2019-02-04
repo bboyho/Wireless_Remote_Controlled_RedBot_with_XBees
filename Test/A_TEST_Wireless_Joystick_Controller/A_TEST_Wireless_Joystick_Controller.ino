@@ -44,6 +44,9 @@ int16_t turnStick_value;
 
 char c_data;//send values through the serial monitor for debugging
 
+int ledPin = 13;      //LED indicator to tell when code has finished initializing
+#define xbee_reset 12 //needed for certain XBee Series 3 modules
+
 void setup() {
 
   //pinMode(L_TRIG, INPUT_PULLUP); // Enable pullup resistor for left trigger, not used
@@ -61,6 +64,28 @@ void setup() {
   delay(10);
 
   pinMode(ACCELERATE_BUTTON, INPUT_PULLUP); // Enable pullup resistor for accelerate button D2
+
+  /*power cycle XBee Series 3 by grounding RESET Pin to avoid dicontinuities in ramp up and brown out detection
+  https://www.silabs.com/community/mcu/32-bit/knowledge-base.entry.html/2017/06/14/rmu_e203_avdd_ramp-j176
+  Minimum Time to Force Reset:
+  EFM32 devices = 50ns; EFM32PG/JG: Pearl and Jade Gecko =100ns
+  https://www.silabs.com/community/mcu/32-bit/knowledge-base.entry.html/2016/07/22/minimum_reset_holdt-PglD
+  */
+  pinMode(xbee_reset, OUTPUT);
+  digitalWrite(xbee_reset, HIGH);
+  delayMicroseconds(1);
+  digitalWrite(xbee_reset, LOW);
+  delayMicroseconds(1);
+  digitalWrite(xbee_reset, HIGH);
+
+  //blink to show that we are done initializing
+  pinMode(ledPin, OUTPUT);
+  for (int i = 0; i < 3; i++) {
+    digitalWrite(ledPin, HIGH);
+    delay(50);
+    digitalWrite(ledPin, LOW);
+    delay(50);
+  }
 }
 
 void loop() {
