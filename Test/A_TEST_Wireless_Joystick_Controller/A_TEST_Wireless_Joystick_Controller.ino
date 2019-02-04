@@ -44,7 +44,7 @@ int16_t turnStick_value;
 
 char c_data;//send values through the serial monitor for debugging
 
-#define ledPin = 13;      //LED indicator to tell when code has finished initializing
+#define ledPin 13     //LED indicator to tell when code has finished initializing
 #define xbee_reset 12 //needed for certain XBee Series 3 modules
 
 void setup() {
@@ -65,11 +65,12 @@ void setup() {
 
   pinMode(ACCELERATE_BUTTON, INPUT_PULLUP); // Enable pullup resistor for accelerate button D2
 
+  //HARDWARE RESET
   /*power cycle XBee Series 3 by grounding RESET Pin to avoid dicontinuities in ramp up and brown out detection
-  https://www.silabs.com/community/mcu/32-bit/knowledge-base.entry.html/2017/06/14/rmu_e203_avdd_ramp-j176
-  Minimum Time to Force Reset:
-  EFM32 devices = 50ns; EFM32PG/JG: Pearl and Jade Gecko =100ns
-  https://www.silabs.com/community/mcu/32-bit/knowledge-base.entry.html/2016/07/22/minimum_reset_holdt-PglD
+    https://www.silabs.com/community/mcu/32-bit/knowledge-base.entry.html/2017/06/14/rmu_e203_avdd_ramp-j176
+    Minimum Time to Force Reset:
+    EFM32 devices = 50ns; EFM32PG/JG: Pearl and Jade Gecko =100ns
+    https://www.silabs.com/community/mcu/32-bit/knowledge-base.entry.html/2016/07/22/minimum_reset_holdt-PglD
   */
   pinMode(xbee_reset, OUTPUT);
   digitalWrite(xbee_reset, HIGH);
@@ -77,6 +78,17 @@ void setup() {
   digitalWrite(xbee_reset, LOW);
   delayMicroseconds(1);
   digitalWrite(xbee_reset, HIGH);
+
+  /*
+    //SOFTWARE RESET
+    //Software reset does not work with XBee Series 3... Needs a hardware reset
+    delay(500);//wait until XBee Series 3 to start up after hardware reset
+    Serial1.write("+++"); //Enter Command Mode
+    delay(500);//short delay as the XBee gets into command mode
+    Serial1.write("ATFR");//AT command for software reset
+    Serial1.write("\r");//carriage return
+    Serial1.write("\n");//new line
+  */
 
   //blink to show that we are done initializing
   pinMode(ledPin, OUTPUT);
