@@ -44,7 +44,7 @@ int16_t turnStick_value;
 
 char c_data;//send values through the serial monitor for debugging
 
-int ledPin = 13;      //LED indicator to tell when code has finished initializing
+#define ledPin = 13;      //LED indicator to tell when code has finished initializing
 #define xbee_reset 12 //needed for certain XBee Series 3 modules
 
 void setup() {
