@@ -54,7 +54,7 @@ RedBotSoftwareSerial RedBotXBee; //make instance of Software Serial, pins define
 //LED to check if the LED is initialized.
 const int status_LED = 13;
 
-void setup(void)
+void setup()
 {
   // Set up both ports at 9600 baud. This value is most important
   // for the XBee. Make sure the baud rate matches the config
@@ -72,7 +72,7 @@ void setup(void)
 
 }
 
-void loop(void)
+void loop()
 {
   // if there is data coming in from XBee on Software Serial UART or Serial Monitor, do something with it.
   if (RedBotXBee.available() || Serial.available()){
