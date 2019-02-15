@@ -1,3 +1,5 @@
+#include "pitches.h" //include pitches.h from tab
+
 #include <RedBot.h>  //include RedBot library
 RedBotMotors motors; //make instance of RedBot
 
@@ -15,6 +17,8 @@ RedBotSoftwareSerial RedBotXBee; //make instance of Software Serial, pins     de
 
 //LED to check if the LED is initialized.
 const int status_LED = 13;
+int coin_counter = 0;//counter for coins and 1-up
+
 
 void setup() {
   // Set up both ports at 9600 baud. This value is most important
@@ -33,9 +37,28 @@ void setup() {
     delay(50);
   }
 
+
+  pinMode(9, OUTPUT); //buzzer
+
+  //1-Up Sound
+  tone(9, NOTE_E6, 125);
+  delay(130);
+  tone(9, NOTE_G6, 125);
+  delay(130);
+  tone(9, NOTE_E7, 125);
+  delay(130);
+  tone(9, NOTE_C7, 125);
+  delay(130);
+  tone(9, NOTE_D7, 125);
+  delay(130);
+  tone(9, NOTE_G7, 125);
+  delay(125);
+  noTone(9);
+
 }//end setup
 
 void loop() {
+
   if (XBee_sent == false) {
     if (RedBotXBee.available() > 0 || Serial.available() > 0) {
       if (RedBotXBee.available()) {
@@ -45,6 +68,7 @@ void loop() {
       else if (Serial.available()) {
         c_data = Serial.read();//store received value from Serial Monitor into variable
       }
+
       counter = 0;
       XBee_sent = true;
       Serial.println("Character Received, ");
@@ -52,7 +76,6 @@ void loop() {
       Serial.println();
       digitalWrite(status_LED, HIGH); //turn ON Status LED
       //delayMicroseconds(500);//add short delay for LED for feedback, this can be commented out if it is affecting performance
-
 
       if (c_data == 'A') {
         Serial.println("Drive Forward");
@@ -84,17 +107,93 @@ void loop() {
         motors.leftMotor(-100); // Turn on left motor power (motorPower = )
         motors.rightMotor(200); // Turn on right motor power (motorPower = )
       }
+      else if (c_data == 'J') {
+        Serial.println("Coast");
+        RedBotXBee.write('J');
+        digitalWrite(status_LED, HIGH); //turn ON Status LED
+        motors.coast();
+      }
+      else if (c_data == 'K') {
+        Serial.println("Stop");
+        RedBotXBee.write('K');
+        digitalWrite(status_LED, HIGH); //turn ON Status LED
+        motors.stop();
+      }
+      else if (c_data == 'X') {
+        // Play coin sound
+        Serial.println("Coin Sound");
+
+
+        if (coin_counter < 100) {
+          coin_counter = coin_counter + 1; //add 1 coin
+          Serial.print("Coin Counter = ");
+          Serial.println(coin_counter);
+          RedBotXBee.write('X');
+
+          digitalWrite(status_LED, HIGH);  // turn the LED on
+
+          tone(9, NOTE_B5, 100);
+          delay(50);
+          tone(9, NOTE_E6, 850);
+          delay(400);
+          noTone(9);
+        }
+        else if (coin_counter <= 100) {
+          coin_counter = 0;//set back coins to 0;
+
+          Serial.print("100 Coins Received! 1-Up");
+          Serial.print("Coin Counter reset to = ");
+          Serial.println(coin_counter);
+          RedBotXBee.write('X');
+          digitalWrite(status_LED, HIGH); //turn ON Status LED
+
+
+          tone(9, NOTE_E6, 125);
+          delay(130);
+          tone(9, NOTE_G6, 125);
+          delay(130);
+          tone(9, NOTE_E7, 125);
+          delay(130);
+          tone(9, NOTE_C7, 125);
+          delay(130);
+          tone(9, NOTE_D7, 125);
+          delay(130);
+          tone(9, NOTE_G7, 125);
+          delay(125);
+          noTone(9);
+        }
+
+      }
+      else if (c_data == 'Y') {
+        // Play coin sound
+        Serial.println("Fireball Sound");
+        RedBotXBee.write('Y');
+
+        digitalWrite(status_LED, HIGH); //turn ON Status LED
+
+        // Play Fireball sound
+        tone(9, NOTE_G4, 35);
+        delay(35);
+        tone(9, NOTE_G5, 35);
+        delay(35);
+        tone(9, NOTE_G6, 35);
+        delay(35);
+        noTone(9);
+      }
     }
+    else {
+      motors.stop();//turn off motors if we do not receive a signal for a while
+    }
+
   }
 
-  if (counter >= 50000) {//this section of code will reset the flag "XBee_Sent" so we can begin listening for characters again
+  if (counter >= 10) {//this section of code will reset the flag "XBee_Sent" so we can begin listening for characters again
     if (XBee_sent == true) {
-      //Serial.print("Counter = ");
-      //Serial.print(counter);
-      //Serial.println(", we are ready to receive characters again");
+      Serial.print("Counter = ");
+      Serial.print(counter);
+      Serial.println(", we are ready to receive characters again");
     }
     //delay(100); // short pause so we are not constantly receiving characters
-    motors.coast();//turn off motors
     XBee_sent = false;
   }
 
@@ -102,11 +201,11 @@ void loop() {
     counter = ++counter;//keep adding until we reach 10, then we can reset flag and begin receiving again
 
     //if connected to a computer, check to see the duration of the delay
-    //Serial.print("Counter = ");
-    //Serial.println(counter);
+    Serial.print("Counter = ");
+    Serial.println(counter);
 
     c_data = RedBotXBee.read();//try to clear false triggers in buffer provided by Master XBee until counter resets
   }
-
+  //delay(100); // short pause so we are not constantly receiving characters
   digitalWrite(status_LED, LOW); //turn OFF Status LED
 }//end loop

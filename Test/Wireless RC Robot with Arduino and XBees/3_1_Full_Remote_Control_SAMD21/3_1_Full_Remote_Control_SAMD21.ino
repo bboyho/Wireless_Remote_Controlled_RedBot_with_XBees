@@ -7,7 +7,8 @@ boolean R_TRIGGER_State = HIGH;
 #define FORWARD_REVERSE_JOYSTICK A3   // Pin used for left joystick's y-component
 #define TURN_JOYSTICK A2   // Pin used for left joystick x-component
 
-int buttonACCELERATE_State; //value to store the state of the button press
+int prev_buttonACCELERATE_State;    //value to store the previous state of the button press
+int current_buttonACCELERATE_State; //value to store the current state of the button press
 #define ACCELERATE_BUTTON 2 // Pin used for right trigger
 
 // We'll store the the analog joystick values here
@@ -54,7 +55,7 @@ void loop() {
   R_TRIGGER_State = digitalRead(R_TRIG);
 
   //initialize variables to read buttons
-  buttonACCELERATE_State = digitalRead(ACCELERATE_BUTTON);
+  current_buttonACCELERATE_State = digitalRead(ACCELERATE_BUTTON);
   /***button1state
     - LOW or 0 means pressed
     - HIGH or 1 means not pressed
@@ -75,7 +76,7 @@ void loop() {
 
   }
 
-  if (buttonACCELERATE_State == LOW) {
+  if (current_buttonACCELERATE_State == LOW) {
     SerialUSB.println("Accelerate Button has been pressed!");
 
     if (forward_reverse_Stick_value > 1000) {
@@ -102,19 +103,35 @@ void loop() {
       Serial1.print('D');
       digitalWrite(status_LED, HIGH); //turn ON Status LED
       //delayMicroseconds(500);//add short delay for LED for feedback, this can be commented out if it is affecting performance
+
     }
+    else {
+      SerialUSB.println("Coast");
+      digitalWrite(status_LED, HIGH); //turn ON Status LED
+      Serial1.print('J');
+    }
+
     //Debug left analog joystick here
     //Boundaries vary depending on the joystick's read value
     //You may need to adjust the values in the condition statements to calibrate
     //Additional condition statements will need to be written for pivoting
     //and turning in reverse
     SerialUSB.print("forward_reverse_Stick_value  = "); //~1023 up, ~7-9 down
+    SerialUSB.println(forward_reverse_Stick_value);
+    SerialUSB.println("turnStick_value = "); //~1023 left, ~5-6 right
+    SerialUSB.println(turnStick_value);
     delay(100);
     digitalWrite(status_LED, LOW); //turn OFF Status LED
   }
-  else {
-    //delay(300);
+  else {//current_buttonACCELERATE_State == HIGH
+    if (prev_buttonACCELERATE_State != current_buttonACCELERATE_State ) {
+      SerialUSB.println("Stop");
+      digitalWrite(status_LED, HIGH); //turn ON Status LED
+      Serial1.print('K');
+    }
+    digitalWrite(status_LED, LOW); //turn OFF Status LED
   }
+  prev_buttonACCELERATE_State = current_buttonACCELERATE_State; //save current state
 
   if (L_TRIGGER_State == LOW) {
     SerialUSB.println("R Trigger Button has been pressed!");

@@ -16,7 +16,6 @@ RedBotSoftwareSerial RedBotXBee; //make instance of Software Serial, pins     de
 const int status_LED = 13;
 int coin_counter = 0;//counter for coins and 1-up
 
-
 void setup() {
   // Set up both ports at 9600 baud. This value is most important
   // for the XBee. Make sure the baud rate matches the config
@@ -57,11 +56,11 @@ void setup() {
 void loop() {
 
   if (RedBotXBee.available() > 0 || Serial.available() > 0) {
-    if (RedBotXBee.available()) {
+    if (RedBotXBee.available() > 0) {
       c_data = RedBotXBee.read();//store received value from XBee into variable
     }
 
-    else if (Serial.available()) {
+    else if (Serial.available() > 0) {
       c_data = Serial.read();//store received value from Serial Monitor into variable
     }
 
@@ -101,6 +100,18 @@ void loop() {
       motors.leftMotor(-100); // Turn on left motor power (motorPower = )
       motors.rightMotor(200); // Turn on right motor power (motorPower = )
     }
+    else if (c_data == 'J') {
+      Serial.println("Coast");
+      RedBotXBee.write('J');
+      digitalWrite(status_LED, HIGH); //turn ON Status LED
+      motors.coast();
+    }
+    else if (c_data == 'K') {
+      Serial.println("Stop");
+      RedBotXBee.write('K');
+      digitalWrite(status_LED, HIGH); //turn ON Status LED
+      motors.stop();
+    }
     else if (c_data == 'X') {
       // Play coin sound
       Serial.println("Coin Sound");
@@ -113,12 +124,12 @@ void loop() {
         RedBotXBee.write('X');
 
         digitalWrite(status_LED, HIGH);  // turn the LED on
+
         tone(9, NOTE_B5, 100);
         delay(50);
         tone(9, NOTE_E6, 850);
         delay(400);
         noTone(9);
-        digitalWrite(status_LED, LOW);  // turn the LED on
       }
       else if (coin_counter <= 100) {
         coin_counter = 0;//set back coins to 0;
@@ -127,6 +138,8 @@ void loop() {
         Serial.print("Coin Counter reset to = ");
         Serial.println(coin_counter);
         RedBotXBee.write('X');
+        digitalWrite(status_LED, HIGH); //turn ON Status LED
+
 
         tone(9, NOTE_E6, 125);
         delay(130);
@@ -142,13 +155,14 @@ void loop() {
         delay(125);
         noTone(9);
       }
-      digitalWrite(status_LED, HIGH); //turn ON Status LED
 
     }
     else if (c_data == 'Y') {
       // Play coin sound
       Serial.println("Fireball Sound");
       RedBotXBee.write('Y');
+
+      digitalWrite(status_LED, HIGH); //turn ON Status LED
 
       // Play Fireball sound
       tone(9, NOTE_G4, 35);
@@ -161,7 +175,6 @@ void loop() {
     }
   }
 
-  delay(100); // short pause so we are not constantly receiving characters
-  motors.stop();//turn off motors
+  //delay(100); // short pause so we are not constantly receiving characters
   digitalWrite(status_LED, LOW); //turn OFF Status LED
 }//end loop
