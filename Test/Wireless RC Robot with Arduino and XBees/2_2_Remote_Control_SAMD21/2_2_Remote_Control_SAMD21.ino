@@ -1,24 +1,32 @@
-#include <RedBot.h>  //include RedBot library
+#define FORWARD_REVERSE_JOYSTICK A3   // Pin used for left joystick's y-component
+#define TURN_JOYSTICK A2   // Pin used for left joystick x-component
 
-char c_data;  // variable for holding incoming data from XBee to Arduino
+int buttonACCELERATE_State; //value to store the state of the button press
+#define ACCELERATE_BUTTON 2 // Pin used for right trigger
 
-// We'll use RedBot SoftwareSerial to communicate with the XBee:
-// For Atmega328P's
-// XBee's DOUT (TX) is connected to pin 14 (Arduino's Software RX)
-// XBee's DIN (RX) is connected to pin 15 (Arduino's Software TX)
-#include <RedBotSoftwareSerial.h>
-RedBotSoftwareSerial RedBotXBee; //make instance of Software Serial, pins     defined already in modified Software Serial Library
+// We'll store the the analog joystick values here
+int16_t forward_reverse_Stick_value;
+int16_t turnStick_value;
+
+char c_data;//send values through the serial monitor for debugging
 
 //LED to check if the LED is initialized.
 const int status_LED = 13;
 
-void setup(){
-  // Set up both ports at 9600 baud. This value is most important
-  // for the XBee. Make sure the baud rate matches the config
-  // setting of your XBee.
-  RedBotXBee.begin(9600);// Initialize SW for XBee for receiving serial
-  Serial.begin(9600);// Initialize HW for Serial Monitor for DEBUGGING
-  Serial.println("RedBot Initialized!");
+void setup() {
+
+  SerialUSB.begin(9600);// Initialize Serial Monitor for DEBUGGING
+
+  //Uncomment this if you want to wait until the serial monitor is open.
+  //while (!SerialUSB); //Wait for Serial Monitor to Open
+
+  SerialUSB.println("Wireless Joystick Controller Initialized");
+
+  Serial1.begin(9600); // Start serial communication with XBee at 9600 baud
+  SerialUSB.println("Wireless Joystick Controller's XBee Ready to Communicate");
+  delay(10);
+
+  pinMode(ACCELERATE_BUTTON, INPUT_PULLUP); // Enable pullup resistor for accelerate button D2
 
   //Status LED to see if the RedBot is initializing
   pinMode(status_LED, OUTPUT);
@@ -33,24 +41,51 @@ void setup(){
 
 void loop() {
 
-  if (RedBotXBee.available() || Serial.available()) {
-    if (RedBotXBee.available()) {
-      c_data = RedBotXBee.read();//store received value from XBee into variable
+  //initialize variables to read buttons
+  buttonACCELERATE_State = digitalRead(ACCELERATE_BUTTON);
+  /***button1state
+    - LOW or 0 means pressed
+    - HIGH or 1 means not pressed
+   ****/
+  //Store values read joystick
+  forward_reverse_Stick_value = analogRead(FORWARD_REVERSE_JOYSTICK);
+  turnStick_value = analogRead(TURN_JOYSTICK);
 
-    }
+  //send commands via serial monitor for testing here
+  if (SerialUSB.available()) {
+    c_data = SerialUSB.read();//take character from serial monitor and store in variable
 
-    else if (Serial.available()) {
-      c_data = Serial.read();//store received value from Serial Monitor into variable
+    Serial1.print(c_data);//send to XBee
 
-    }
-
-    Serial.println("Character Received, ");
-    Serial.write(c_data);//send it out to serial monitor
-    Serial.println();
-    digitalWrite(status_LED, HIGH); //turn ON Status LED
-    delayMicroseconds(500);//add short delay for LED for feedback, this can be commented out if it is affecting performance
+    //echo back what was sent to serial monitor
+    SerialUSB.println("Sending Character Here, ");
+    SerialUSB.println(c_data);
 
   }
 
-  digitalWrite(status_LED, LOW); //turn OFF Status LED
+  if (buttonACCELERATE_State == LOW) {
+    SerialUSB.println("Accelerate Button has been pressed!");
+
+    if (forward_reverse_Stick_value > 1000) {
+      SerialUSB.println("Forward");
+      Serial1.print('A');//transmit to RedBot via XBees on the same channel
+      digitalWrite(status_LED, HIGH); //turn ON Status LED
+      //delayMicroseconds(500);//add short delay for LED for feedback, this can be commented out if it is affecting performance
+    }
+
+    //Debug left analog joystick here
+    //Boundaries vary depending on the joystick's read value
+    //You may need to adjust the values in the condition statements to calibrate
+    //Additional condition statements will need to be written for pivoting
+    //and turning in reverse
+    SerialUSB.print("forward_reverse_Stick_value  = "); //~1023 up, ~7-9 down
+    delay(100);
+    digitalWrite(status_LED, LOW); //turn OFF Status LED
+  }
+  else {
+    //delay(300);
+  }
+
+
 }//end loop
+
