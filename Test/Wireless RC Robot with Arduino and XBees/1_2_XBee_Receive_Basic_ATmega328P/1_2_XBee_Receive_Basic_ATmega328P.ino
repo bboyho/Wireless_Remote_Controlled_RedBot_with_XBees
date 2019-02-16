@@ -1,3 +1,28 @@
+/* XBee Receive Basic ATmega328P Example
+   Written by: Ho Yun Bobby Chan
+   Date: 2/15/19
+   SparkFun Electronics
+
+   license: Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0)
+   Do whatever you'd like with this code, use it for any purpose.
+   Please attribute and keep this license.
+
+   The first step to controlling the RedBot remotely is to first drive it
+   from the Serial Monitor in a tethered setup. This is example code
+   for the RedBot Mainboard with ATmega328P. After uploading this sketch,
+   keep the RedBot tethered to your computer with the USB cable. Flip the
+   switches to the respective sides: MOTOR => RUN and POWER => ON. You
+   will also need to have UART flipped to the XBee_SW_Serial side.
+
+   Assuming that you have a pair of XBees 1s (or 3 configured with
+   802.15.4 protocol) on the same channel, a character will be
+   transmitted wirelessly between the XBees. Any charactered received
+   from the XBee connected to the software serial defined pins will
+   be passed to the Serial Monitor. For troubleshooting, any character
+   sent through the Serial Monitor will be echoed back.
+
+*/
+
 #include <RedBot.h>  //include RedBot library
 
 char c_data;  // variable for holding incoming data from XBee to Arduino
@@ -7,18 +32,17 @@ char c_data;  // variable for holding incoming data from XBee to Arduino
 // XBee's DOUT (TX) is connected to pin 14 (Arduino's Software RX)
 // XBee's DIN (RX) is connected to pin 15 (Arduino's Software TX)
 #include <RedBotSoftwareSerial.h>
-RedBotSoftwareSerial RedBotXBee; //make instance of Software Serial, pins     defined already in modified Software Serial Library
+RedBotSoftwareSerial RedBotXBee; //make instance of Software Serial, pins defined already in modified Software Serial Library
 
 //LED to check if the LED is initialized.
 const int status_LED = 13;
 
-void setup(){
+void setup() {
   // Set up both ports at 9600 baud. This value is most important
   // for the XBee. Make sure the baud rate matches the config
   // setting of your XBee.
   RedBotXBee.begin(9600);// Initialize SW for XBee for receiving serial
   Serial.begin(9600);// Initialize HW for Serial Monitor for DEBUGGING
-  Serial.println("RedBot Initialized!");
 
   //Status LED to see if the RedBot is initializing
   pinMode(status_LED, OUTPUT);
@@ -29,6 +53,7 @@ void setup(){
     delay(50);
   }
 
+  Serial.println("RedBot Initialized!");
 }//end setup
 
 void loop() {

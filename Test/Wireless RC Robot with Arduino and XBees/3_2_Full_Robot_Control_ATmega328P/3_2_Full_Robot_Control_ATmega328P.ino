@@ -1,3 +1,48 @@
+/* Full Robot Control ATmega328P Example
+   Written by: Ho Yun Bobby Chan
+   Date: 2/15/19
+   SparkFun Electronics
+
+   license: Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0)
+   Do whatever you'd like with this code, use it for any purpose.
+   Please attribute and keep this license.
+
+   The first step to controlling the RedBot remotely is to first drive it
+   from the Serial Monitor in a tethered setup. This is example code
+   for the RedBot Mainboard with ATmega328P. After uploading this sketch,
+   keep the RedBot tethered to your computer with the USB cable. Flip the
+   switches to the respective sides: MOTOR => RUN and POWER => ON. You
+   will also need to have UART flipped to the XBee_SW_Serial side.
+
+   Assuming that you have a pair of XBees 1s (or 3 configured with
+   802.15.4 protocol) on the same channel, a character will be
+   transmitted wirelessly between the XBees. Any charactered received
+   from the XBee connected to the software serial defined pins will
+   be passed to the Serial Monitor. For troubleshooting, any character
+   sent through the Serial Monitor will be echoed back. Try testing the
+   controller to see if the robot will move forward or sending the following
+   character through the Serial Monitor.
+
+       A = forward
+       B = forward turn right
+       C = reverse
+       D = forward turn left
+       J = coast
+       K = stop
+       X = coin cointer sound effect
+       Y = fireball sound effect
+
+  If your motors are not moving forward when you send the forward command,
+  simply flip the wiring. You can adjust the code but that would require
+  adjusting more than one line of code. This does not account for motor
+  intensity like the example that is used with the Wireless Joystick Example
+  and RedBot Experiment 9.
+
+  WARNING: Make sure to flip the switch to the XBEE_SW_SERIAL when
+  you are uploading to the RedBot Mainboard. You will have issues uploading
+  code and possibly brick your XBee.
+*/
+
 #include "pitches.h" //include pitches.h from tab
 
 #include <RedBot.h>  //include RedBot library
@@ -22,7 +67,6 @@ void setup() {
   // setting of your XBee.
   RedBotXBee.begin(9600);// Initialize SW for XBee for receiving serial
   Serial.begin(9600);// Initialize HW for Serial Monitor for DEBUGGING
-  Serial.println("RedBot Initialized!");
 
   //Status LED to see if the RedBot is initializing
   pinMode(status_LED, OUTPUT);
@@ -32,7 +76,6 @@ void setup() {
     digitalWrite(status_LED, LOW); //set Status LED off
     delay(50);
   }
-
 
   pinMode(9, OUTPUT); //buzzer
 
@@ -51,6 +94,7 @@ void setup() {
   delay(125);
   noTone(9);
 
+  Serial.println("RedBot Initialized!");
 }//end setup
 
 void loop() {
