@@ -1,4 +1,5 @@
-/* XBee Receive Basic ATmega328P Example
+/* 1_2_XBee_Receive_Basic_ATmega328P.ino
+   XBee Receive Basic ATmega328P Example
    Written by: Ho Yun Bobby Chan
    Date: 2/15/19
    SparkFun Electronics

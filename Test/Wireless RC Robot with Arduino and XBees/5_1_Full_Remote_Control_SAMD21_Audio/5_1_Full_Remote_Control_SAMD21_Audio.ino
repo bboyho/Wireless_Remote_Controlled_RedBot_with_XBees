@@ -1,5 +1,4 @@
-/* 3_1_Full_Remote_Control_SAMD21.ino
-   Full Remote Control SAMD21 Example
+/* Full Remote Control SAMD21 Example
    Written by: Ho Yun Bobby Chan
    Date: 2/15/19
    SparkFun Electronics
@@ -16,7 +15,7 @@
 
    Pressing down on D2 (if you soldered the joystick on the right or a button) will check
    the joystick on the left. A character will be transmitted when moving the joystick.
-   
+
        up = forward
        right = forward turn right
        down = reverse
@@ -25,17 +24,29 @@
 
    When D2 is not being pressed, a character will be sent to stop the motors.
 
+   Pressing down on D6 (left trigger) or D3 (right trigger) will send another character
+
+       left trigger = coin
+       right trigger = fireball
+
    The RedBot will need to be programmed to read those values.
 
    Note: You may need to connect A5 to the XBee Series 3's reset pin on the Wireless Joystick
    for certain XBee Series 3 modules. For more details, check out the xbee3_RESET() function.
 */
 
+#define L_TRIG 6        // Pin used for left trigger
+#define R_TRIG 3        // Pin used for right trigger
+boolean prev_buttonL_State = HIGH;    //value to store the previous state of the button press
+boolean current_buttonL_State = HIGH; //value to store the current state of the button press
+
+boolean prev_buttonR_State = HIGH;    //value to store the previous state of the button press
+boolean current_buttonR_State = HIGH; //value to store the current state of the button press
+
 #define FORWARD_REVERSE_JOYSTICK A3   // Pin used for left joystick's y-component
 #define TURN_JOYSTICK A2   // Pin used for left joystick x-component
 
-int prev_buttonACCELERATE_State;    //value to store the previous state of the button press
-int current_buttonACCELERATE_State; //value to store the current state of the button press
+boolean current_buttonACCELERATE_State;
 #define ACCELERATE_BUTTON 2 // Pin used for right trigger
 
 // We'll store the the analog joystick values here
@@ -51,6 +62,9 @@ const int status_LED = 13;
 #define xbee_reset A5
 
 void setup() {
+
+  pinMode(L_TRIG, INPUT_PULLUP); // Enable pullup resistor for left trigger
+  pinMode(R_TRIG, INPUT_PULLUP); // Enable pullup resistor for right trigger
 
   SerialUSB.begin(9600);// Initialize Serial Monitor for DEBUGGING
 
@@ -77,6 +91,9 @@ void setup() {
 }//end setup
 
 void loop() {
+
+  current_buttonL_State = digitalRead(L_TRIG);
+  current_buttonR_State = digitalRead(R_TRIG);
 
   //initialize variables to read buttons
   current_buttonACCELERATE_State = digitalRead(ACCELERATE_BUTTON);
@@ -147,14 +164,32 @@ void loop() {
 
   }
   else {//current_buttonACCELERATE_State == HIGH
-      //if not sending a command to drive, automatically have the robot stop moving
-      SerialUSB.println("Stop");
-      digitalWrite(status_LED, HIGH); //turn ON Status LED
-      Serial1.print('K');
-
+    //if not sending a command to drive, automatically have the robot stop moving
+    SerialUSB.println("Stop");
+    digitalWrite(status_LED, HIGH); //turn ON Status LED
+    Serial1.print('K');
   }
-  prev_buttonACCELERATE_State = current_buttonACCELERATE_State; //save current state
 
+
+  if (current_buttonL_State == LOW) {
+    if (prev_buttonL_State != current_buttonL_State) {
+      SerialUSB.println("R Trigger Button has been pressed!");
+      SerialUSB.println("Coin Sound");
+      Serial1.print('X');
+      digitalWrite(status_LED, HIGH); //turn ON Status LED
+    }
+  }
+  if (current_buttonR_State == LOW) {
+    if (prev_buttonR_State != current_buttonR_State) {
+      SerialUSB.println("R Trigger Button has been pressed!");
+      SerialUSB.println("Fireball Sound");
+      Serial1.print('Y');
+      digitalWrite(status_LED, HIGH); //turn ON Status LED
+    }
+  }
+
+  prev_buttonL_State = current_buttonL_State; //save current state
+  prev_buttonR_State = current_buttonR_State; //save current state
   delay(100); //add short delay for LED for feedback, this can be commented out if it is affecting performance
   digitalWrite(status_LED, LOW); //turn OFF Status LED
 }//end loop

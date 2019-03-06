@@ -1,4 +1,6 @@
-/* XBee Transmit Basic SAMD21 Example
+/* 1_1_XBee_Transmit_Basic_SAMD21.ino
+
+   XBee Transmit Basic SAMD21 Example
    Written by: Ho Yun Bobby Chan
    Date: 2/15/19
    SparkFun Electronics

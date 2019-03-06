@@ -1,4 +1,5 @@
-/* Remote Control SAMD21 Example
+/* 2_1_Remote_Control_SAMD21.ino
+   Remote Control SAMD21 Example
    Written by: Ho Yun Bobby Chan
    Date: 2/15/19
    SparkFun Electronics

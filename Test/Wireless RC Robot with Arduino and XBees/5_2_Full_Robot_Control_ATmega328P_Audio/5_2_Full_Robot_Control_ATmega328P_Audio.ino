@@ -1,5 +1,4 @@
-/* 3_2_Full_Robot_Control_ATmega328P.ino
-   Full Robot Control ATmega328P Example
+/* Full Robot Control ATmega328P Example
    Written by: Ho Yun Bobby Chan
    Date: 2/15/19
    SparkFun Electronics
@@ -30,6 +29,8 @@
        D = forward turn left
        J = coast
        K = stop
+       X = coin cointer sound effect
+       Y = fireball sound effect
 
   If your motors are not moving forward when you send the forward command,
   simply flip the wiring. You can adjust the code but that would require
@@ -41,6 +42,8 @@
   you are uploading to the RedBot Mainboard. You will have issues uploading
   code and possibly brick your XBee.
 */
+
+#include "pitches.h" //include pitches.h from tab
 
 #include <RedBot.h>  //include RedBot library
 RedBotMotors motors; //make instance of RedBot
@@ -56,6 +59,7 @@ RedBotSoftwareSerial RedBotXBee; //make instance of Software Serial, pins     de
 
 //LED to check if the LED is initialized.
 const int status_LED = 13;
+int coin_counter = 0;//counter for coins and 1-up
 
 void setup() {
   // Set up both ports at 9600 baud. This value is most important
@@ -72,6 +76,23 @@ void setup() {
     digitalWrite(status_LED, LOW); //set Status LED off
     delay(50);
   }
+
+  pinMode(9, OUTPUT); //buzzer
+
+  //1-Up Sound
+  tone(9, NOTE_E6, 125);
+  delay(130);
+  tone(9, NOTE_G6, 125);
+  delay(130);
+  tone(9, NOTE_E7, 125);
+  delay(130);
+  tone(9, NOTE_C7, 125);
+  delay(130);
+  tone(9, NOTE_D7, 125);
+  delay(130);
+  tone(9, NOTE_G7, 125);
+  delay(125);
+  noTone(9);
 
   Serial.println("RedBot Initialized!");
 }//end setup
@@ -135,7 +156,67 @@ void loop() {
       digitalWrite(status_LED, HIGH); //turn ON Status LED
       motors.stop();
     }
-    
+    else if (c_data == 'X') {
+      // Play coin sound
+      Serial.println("Coin Sound");
+
+
+      if (coin_counter < 100) {
+        coin_counter = coin_counter + 1; //add 1 coin
+        Serial.print("Coin Counter = ");
+        Serial.println(coin_counter);
+        RedBotXBee.write('X');
+
+        digitalWrite(status_LED, HIGH);  // turn the LED on
+
+        tone(9, NOTE_B5, 100);
+        delay(50);
+        tone(9, NOTE_E6, 850);
+        delay(400);
+        noTone(9);
+      }
+      else if (coin_counter <= 100) {
+        coin_counter = 0;//set back coins to 0;
+
+        Serial.print("100 Coins Received! 1-Up");
+        Serial.print("Coin Counter reset to = ");
+        Serial.println(coin_counter);
+        RedBotXBee.write('X');
+        digitalWrite(status_LED, HIGH); //turn ON Status LED
+
+
+        tone(9, NOTE_E6, 125);
+        delay(130);
+        tone(9, NOTE_G6, 125);
+        delay(130);
+        tone(9, NOTE_E7, 125);
+        delay(130);
+        tone(9, NOTE_C7, 125);
+        delay(130);
+        tone(9, NOTE_D7, 125);
+        delay(130);
+        tone(9, NOTE_G7, 125);
+        delay(125);
+        noTone(9);
+      }
+
+    }
+    else if (c_data == 'Y') {
+      // Play coin sound
+      Serial.println("Fireball Sound");
+      RedBotXBee.write('Y');
+
+      digitalWrite(status_LED, HIGH); //turn ON Status LED
+
+      // Play Fireball sound
+      tone(9, NOTE_G4, 35);
+      delay(35);
+      tone(9, NOTE_G5, 35);
+      delay(35);
+      tone(9, NOTE_G6, 35);
+      delay(35);
+      noTone(9);
+    }
   }
 
   //delay(100); // short pause so we are not constantly receiving characters

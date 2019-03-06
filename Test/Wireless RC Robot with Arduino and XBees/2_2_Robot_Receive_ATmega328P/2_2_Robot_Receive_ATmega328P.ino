@@ -1,4 +1,5 @@
-/* Robot Receive ATmega328P Example
+/* 2_2_Robot_Receive_ATmega328P.ino
+   Robot Receive ATmega328P Example
    Written by: Ho Yun Bobby Chan
    Date: 2/15/19
    SparkFun Electronics
