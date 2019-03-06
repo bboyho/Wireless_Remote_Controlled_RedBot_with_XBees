@@ -78,12 +78,12 @@ void setup() {
 
 void loop() {
 
-  if (RedBotXBee.available() > 0 || Serial.available() > 0) {
-    if (RedBotXBee.available() > 0) {
+  if (RedBotXBee.available() || Serial.available()) {
+    if (RedBotXBee.available()) {
       c_data = RedBotXBee.read();//store received value from XBee into variable
     }
 
-    else if (Serial.available() > 0) {
+    else if (Serial.available()) {
       c_data = Serial.read();//store received value from Serial Monitor into variable
     }
 
