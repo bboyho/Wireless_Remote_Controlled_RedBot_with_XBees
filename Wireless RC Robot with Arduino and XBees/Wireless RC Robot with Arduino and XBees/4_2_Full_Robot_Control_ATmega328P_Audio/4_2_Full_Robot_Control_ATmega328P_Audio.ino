@@ -1,4 +1,5 @@
-/* Full Robot Control ATmega328P Example
+/* 4_2_Full_Remote_Control_SAMD_Audio.ino
+   Full Robot Control ATmega328P Example with Buzzer
    Written by: Ho Yun Bobby Chan
    Date: 2/15/19
    SparkFun Electronics
@@ -99,12 +100,12 @@ void setup() {
 
 void loop() {
 
-  if (RedBotXBee.available() > 0 || Serial.available() > 0) {
-    if (RedBotXBee.available() > 0) {
+  if (RedBotXBee.available() || Serial.available()) {
+    if (RedBotXBee.available()) {
       c_data = RedBotXBee.read();//store received value from XBee into variable
     }
 
-    else if (Serial.available() > 0) {
+    else if (Serial.available()) {
       c_data = Serial.read();//store received value from Serial Monitor into variable
     }
 

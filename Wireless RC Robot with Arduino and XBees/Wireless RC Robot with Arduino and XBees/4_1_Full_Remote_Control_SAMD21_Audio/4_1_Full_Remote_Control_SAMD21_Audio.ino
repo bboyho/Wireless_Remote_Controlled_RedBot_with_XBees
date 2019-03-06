@@ -1,4 +1,5 @@
-/* Full Remote Control SAMD21 Example
+/* 4_1_Full_Remote_Control_SAMD_Audio.ino
+   Full Remote Control SAMD21 Example with Buzzer
    Written by: Ho Yun Bobby Chan
    Date: 2/15/19
    SparkFun Electronics
