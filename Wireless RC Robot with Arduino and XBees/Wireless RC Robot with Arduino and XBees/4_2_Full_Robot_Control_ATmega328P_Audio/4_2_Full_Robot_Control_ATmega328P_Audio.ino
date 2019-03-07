@@ -80,19 +80,8 @@ void setup() {
 
   pinMode(9, OUTPUT); //buzzer
 
-  //1-Up Sound
   tone(9, NOTE_E6, 125);
   delay(130);
-  tone(9, NOTE_G6, 125);
-  delay(130);
-  tone(9, NOTE_E7, 125);
-  delay(130);
-  tone(9, NOTE_C7, 125);
-  delay(130);
-  tone(9, NOTE_D7, 125);
-  delay(130);
-  tone(9, NOTE_G7, 125);
-  delay(125);
   noTone(9);
 
   Serial.println("RedBot Initialized!");
