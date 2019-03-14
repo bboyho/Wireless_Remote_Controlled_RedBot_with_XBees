@@ -23,13 +23,13 @@ Repository Contents
 
 Documentation
 --------------
-
-* **[Exploring XBees and XCTU: Configuring Networks](https://learn.sparkfun.com/tutorials/exploring-xbees-and-xctu/#configuring-networks)** - Getting Started with XBees
-* **[Installing an Arduino Library Guide](https://learn.sparkfun.com/tutorials/installing-an-arduino-library)** - Basic information on how to install an Arduino library.
-* **[SAMD21 Mini/Dev Breakout Hookup Guide: Setting Up Arduino](https://learn.sparkfun.com/tutorials/samd21-minidev-breakout-hookup-guide/setting-up-arduino)** - Look here for SAMD21 board add-ons
-* **[Wireless Joystick Hookup Guide](https://learn.sparkfun.com/tutorials/wireless-joystick-hookup-guide/)** - Basic hookup guide for the Wireless Joystick.  
-* **[RedBot Assembly Guide](https://learn.sparkfun.com/tutorials/assembly-guide-for-redbot-with-shadow-chassis)** - Basic hookup guide for the RedBot.
-* **[Experiment Guide](https://learn.sparkfun.com/tutorials/experiment-guide-for-redbot-with-shadow-chassis)** - Experiment guide for the RedBot.
+* **[Project Guide](https://learn.sparkfun.com/tutorials/wireless-rc-robot-with-arduino-and-xbees)** - Project guide.
+  * **[Exploring XBees and XCTU: Configuring Networks](https://learn.sparkfun.com/tutorials/exploring-xbees-and-xctu/#configuring-networks)** - Getting Started with XBees.
+  * **[Installing an Arduino Library Guide](https://learn.sparkfun.com/tutorials/installing-an-arduino-library)** - Basic information on how to install an Arduino library.
+  * **[SAMD21 Mini/Dev Breakout Hookup Guide: Setting Up Arduino](https://learn.sparkfun.com/tutorials/samd21-minidev-breakout-hookup-guide/setting-up-arduino)** - Look here for SAMD21 board add-ons
+  * **[Wireless Joystick Hookup Guide](https://learn.sparkfun.com/tutorials/wireless-joystick-hookup-guide/)** - Basic hookup guide for the Wireless Joystick.  
+  * **[RedBot Assembly Guide](https://learn.sparkfun.com/tutorials/assembly-guide-for-redbot-with-shadow-chassis)** - Basic hookup guide for the RedBot.
+  * **[Experiment Guide](https://learn.sparkfun.com/tutorials/experiment-guide-for-redbot-with-shadow-chassis)** - Experiment guide for the RedBot.
 
 XBee Series 1:  Point to Point Configuration
 -------------------
